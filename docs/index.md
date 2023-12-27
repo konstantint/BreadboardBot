@@ -18,7 +18,7 @@ To get started with the BreadboardBot you need to:
 2. [Assemble](assembly.md) them.
 3. Check out the [fun things](examples.md) you can do with your robot. 
 
-Leave your feedback or propose new ideas as issues in [this repository](https://github.com/konstantint/BreadboardBot).
+Leave your feedback or propose new ideas as [issues](https://github.com/konstantint/BreadboardBot/issues) or [discussions](https://github.com/konstantint/BreadboardBot/discussions) in [the project's repository](https://github.com/konstantint/BreadboardBot).
 
 # License
 * Any original code in the project is MIT-licensed. The codebase includes [CircuitPython libraries](https://github.com/adafruit/circuitpython), which are also MIT-licensed.
