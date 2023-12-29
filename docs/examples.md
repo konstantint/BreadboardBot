@@ -10,7 +10,9 @@
   * [IR-based obstacle-avoiding line-follower with an OLED face](examples/line_follower_oled_ir.md)
   * [Remote control using Bluetooth serial (HC05/06)](examples/oled_bluetooth.md)
 * **Xiao ESP32S3(-Sense)**
-  * [Web-based control over Wifi & camera (ESP32S3 [Sense])](examples/esp32s3_http_control.md)
+  * [Web-based control over Wifi & camera](examples/esp32s3_http_control.md)
+* **M5Stack Atom Lite**
+  * [Line follower using ESPHome](examples/m5stack_atom_lite_line_follower.md)
 
 Examples pending documentation:
 

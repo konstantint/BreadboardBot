@@ -24,6 +24,11 @@ Then repeat the same for the second servo, but a different side (e.g. the side w
 
 ![](img/assembly-servo-3.jpg)
 
+If you got the "GeekServo"-style servos, drill the holes here:
+
+![](img/assembly-servo-4.jpg)
+
+
 ### 4. Attach the servos to the back of the breadboard
 
 * If you want to bolt the motors to the breadboard (i.e. you did not skip the previous step), then proceed as follows:
@@ -47,6 +52,10 @@ Make sure the connectors align correctly, as shown on the image below. The left 
 
 ![](img/assembly-servo-glue-1.jpg)
 
+For GeekServo-style servos you might not be able to align the left-side connector exactly against the holes 3-4-5. This is fine, just take this into account when referencing the "wiring" images later. 
+
+![](img/assembly-servo-glue-2.jpg)
+
 ### 6. Pack the servo wires between the motors
 
 Pull the wires down through the space between the motors, then fold back and forth twice and stick a ~2x3cm patch of double-sided tape to close.
@@ -56,9 +65,14 @@ Pull the wires down through the space between the motors, then fold back and for
 ![](img/assembly-wire-3.jpg)
 ![](img/assembly-wire-4.jpg)
 
+For GeekServo servos the process is similar, just make sure the "outside-facing" wire on the right motor passes flat against the back:
+
+![](img/assembly-wire-5.jpg)
+
+
 ### 7. Screw the wheel adapters onto the motors
 
-If you are using lego-style wheels, this is a good time to screw on the wheel adapters.
+If you are using SG90 servos with lego-style wheels, this is a good time to screw on the wheel adapters.
 
 ![](img/assembly-wheel-adapter-1.jpg)
 
@@ -104,6 +118,7 @@ I am pretty sure there could be an even more foolproof connector option here - i
 * Hold the "BOOT" button on the Xiao RP2040 and while holding it connect it via USB to your computer. A new external drive named `RPI2-RP2` should appear. Copy the `.uf2` file downloaded in the previous step to this drive. When download completes, the microcontroller restarts and an external drive named `CIRCUITPY` should appear.
   * You can read more about this flashing process [here](https://wiki.seeedstudio.com/XIAO-RP2040-with-CircuitPython/).
 * Copy the contents of the [code/circuitpython/examples](https://github.com/konstantint/BreadboardBot/tree/main/code/circuitpython/examples) directory to that drive.
+* If you are using GeekServo-style servos, edit the file `breadboardbot/platform_rp2040.py`: replace the line `motor_speed_multiplier=0.1` with `motor_speed_multiplier=0.75`.
 
 If all went fine, you should observe that the newly uploaded program first blinks the green LED and then starts showing a rainbow effect on its RGB LED.
 

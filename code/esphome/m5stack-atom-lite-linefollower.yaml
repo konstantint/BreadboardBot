@@ -1,0 +1,116 @@
+substitutions:
+  device_name: "atomlite-breadboardbot"
+  friendly_name: AtomLite BreadboardBot
+
+# ------------------- Boilerplate ------------------- 
+esphome:
+  name: ${device_name}
+  on_boot:
+    then:
+      - light.turn_on:
+          id: led
+          brightness: 20%
+          red: 0
+          green: 100%
+          blue: 0
+
+esp32:
+  board: m5stack-atom
+  framework:
+    type: arduino
+
+logger:
+
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+  password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    password: !secret fallback_ap_password
+
+captive_portal:
+
+web_server:
+
+# ------------------- Devices ------------------- 
+
+light:
+  - id: led
+    name: "${friendly_name} LED"
+    platform: fastled_clockless
+    chipset: SK6812
+    pin: 27
+    num_leds: 1
+    rgb_order: GRB
+    default_transition_length: 0s
+    restore_mode: ALWAYS_OFF
+
+binary_sensor:
+  - id: button
+    internal: true
+    platform: gpio
+    pin:
+      number: 39
+      inverted: true
+    on_press:
+      then:
+        - light.toggle: led
+
+  
+  # ------------------- Line sensors ------------------- 
+  - id: line_left
+    internal: true
+    platform: gpio
+    pin:
+      number: 33
+    on_press:
+      then:
+        - servo.write:
+            id: left_servo
+            level: 10%
+    on_release:
+      then:
+        - servo.write:
+            id: left_servo
+            level: 0
+
+  - id: line_right
+    internal: true
+    platform: gpio
+    pin:
+      number: 23
+    on_press:
+      then:
+        - servo.write:
+            id: right_servo
+            level: -20%
+    on_release:
+      then:
+        - servo.write:
+            id: right_servo
+            level: 0
+
+# ------------------- Servos ------------------- 
+output:
+  - platform: ledc
+    id: right_pwm_output
+    pin:
+      number: 25
+    frequency: 50 Hz
+  - platform: ledc
+    id: left_pwm_output
+    pin:
+      number: 21
+    frequency: 50 Hz
+servo:
+  - id: right_servo
+    output: right_pwm_output
+  - id: left_servo
+    output: left_pwm_output
+

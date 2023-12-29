@@ -14,12 +14,26 @@ import time
 class Robot:
     """Primary Xiao RP2040-based BreadboardBot platform definition."""
 
-    def __init__(self, line_sensors=True, sonar=False, dht11=False, i2c=False, uart=False, motor_right_pin=board.D6):
+    def __init__(
+        self,
+        line_sensors=True,
+        sonar=False,
+        dht11=False,
+        i2c=False,
+        uart=False,
+        motor_right_pin=board.D6,
+        # For blue "SG90" motors use 0.1
+        # For "GeekServo" motors with lego axis set it to 0.75
+        motor_speed_multiplier=0.1,
+    ):
         self.led = DigitalInOut(board.LED_GREEN)
         self.led.direction = Direction.OUTPUT
         self.keys = keypad.Keys((board.D1,), value_when_pressed=False, pull=True)
         self.motor_left = servo.ContinuousServo(pwmio.PWMOut(board.D0, frequency=50))
-        self.motor_right = servo.ContinuousServo(pwmio.PWMOut(motor_right_pin, frequency=50))
+        self.motor_right = servo.ContinuousServo(
+            pwmio.PWMOut(motor_right_pin, frequency=50)
+        )
+        self.motor_speed_multiplier = motor_speed_multiplier
         if line_sensors:
             self.line_left = DigitalInOut(board.D10)
             self.line_right = DigitalInOut(board.D7)
@@ -87,8 +101,12 @@ class Robot:
         # better precision, you might want to calibrate the constants used
         # here until calling drive(0, 0) consistently results in fully stopped
         # motors
-        self.motor_left.throttle = 0.13 * left_throttle - 0.07
-        self.motor_right.throttle = -0.11 * right_throttle
+        self.motor_left.throttle = min(
+            1, max(1.3 * self.motor_speed_multiplier * left_throttle - 0.07, -1)
+        )
+        self.motor_right.throttle = min(
+            1, max(-1.1 * self.motor_speed_multiplier * right_throttle, -1)
+        )
 
     def get_sonar_distance(self):
         if (
