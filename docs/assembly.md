@@ -103,7 +103,7 @@ I am pretty sure there could be an even more foolproof connector option here - i
     * Yes, it is an old version, but that is what the current code has been tested with and I never bothered trying to upgrade so far. Feel free to try newer versions.
 * Hold the "BOOT" button on the Xiao RP2040 and while holding it connect it via USB to your computer. A new external drive named `RPI2-RP2` should appear. Copy the `.uf2` file downloaded in the previous step to this drive. When download completes, the microcontroller restarts and an external drive named `CIRCUITPY` should appear.
   * You can read more about this flashing process [here](https://wiki.seeedstudio.com/XIAO-RP2040-with-CircuitPython/).
-* Copy the contents of the [code/examples](https://github.com/konstantint/BreadboardBot/tree/main/code/examples) directory to that drive.
+* Copy the contents of the [code/circuitpython/examples](https://github.com/konstantint/BreadboardBot/tree/main/code/circuitpython/examples) directory to that drive.
 
 If all went fine, you should observe that the newly uploaded program first blinks the green LED and then starts showing a rainbow effect on its RGB LED.
 

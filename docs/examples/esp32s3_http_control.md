@@ -12,7 +12,7 @@ This example requires the use of the [Xiao ESP32S3](https://www.seeedstudio.com/
 
   The ESP32S3 needs to be flashed with CircuitPython 8 as described [here](https://wiki.seeedstudio.com/XIAO_ESP32S3_CircuitPython/), except you should use the `Espressif - ESP32S3-DevkitC-1-N8R8` image for camera support.
 
-  Next, copy over the `lib` directory from from [code/examples_8](https://github.com/konstantint/BreadboardBot/tree/main/code/examples_v8). Make sure that you copied `settings.toml` over - without it the camera crashes with an out of memory error.
+  Next, remove the `lib` folder and replace it with the `lib` directory from [code/circuitpython/libraries/v8](https://github.com/konstantint/BreadboardBot/tree/main/code/circuitpython/libraries/v8). Make sure that your MCU's root directory contains the `settings.toml` file from the `examples` folder - without it the camera crashes with an out of memory error.
 
   Then edit the `wifi_config.py`, specifying the correct Wifi SSID and password.
 
