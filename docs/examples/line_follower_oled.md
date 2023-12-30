@@ -12,5 +12,10 @@
 
   The OLED takes the space that would be necessary to plug in the sonar, so you cannot have both (but you can still get obstacle avoidance using an [IR proximity sensor](line_follower_oled_ir.md). The wiring shown here is also incompatible with the button attachment used in the [Sonar line follower with button](sonar_line_follower_button_buzzer.md) example (you need the D1 pin for the display here). If you need both the display and a button, you would need to rewire the button to a different input pin.
 
-* **Program:** Change `code.py` to be just `import ex05_line_follower_oled`.
-* The resulting robot is just the basic line follower, but with a funny, minimally animated face.
+* **Programming**
+  
+  Change `code.py` to be just `import ex05_line_follower_oled`.
+
+* **Result**
+  
+  The resulting robot is just the basic line follower, but with a funny, minimally animated face.

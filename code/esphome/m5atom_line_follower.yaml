@@ -1,6 +1,6 @@
 substitutions:
-  device_name: "atomlite-breadboardbot"
-  friendly_name: AtomLite BreadboardBot
+  device_name: "m5atom-breadboardbot-linefollower"
+  friendly_name: M5Stack Atom BreadboardBot LineFollower
 
 # ------------------- Boilerplate ------------------- 
 esphome:

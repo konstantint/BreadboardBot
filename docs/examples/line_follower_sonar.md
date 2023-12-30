@@ -8,5 +8,10 @@
 
   ![](../img/example-sonar-wiring.jpg)
 
-* **Program:** Change `code.py` to be just `import ex03_line_follower_sonar`.
-* The resulting robot should behave somewhat [like that](https://youtu.be/cBlWqL9eYWU). Note that you can hear the normally inaudible sonar working in the recording.
+* **Programming**
+
+  Change `code.py` to be just `import ex03_line_follower_sonar`.
+
+* **Result**
+  
+  The resulting robot should behave somewhat [like that](https://youtu.be/cBlWqL9eYWU). Note that you can hear the normally inaudible sonar working in the recording.

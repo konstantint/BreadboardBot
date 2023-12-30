@@ -10,5 +10,10 @@ Because why not?
 
   ![](../img/example-oled-dht11-wiring.jpg)
 
-* **Program:** Change `code.py` to be just `import ex06_line_follower_oled_dht11`.
-* The resulting robot is just the basic line follower, but with a funny face on the screen that also somewhy shows the current temperature and humidity.
+* **Programming**
+  
+  Change `code.py` to be just `import ex06_line_follower_oled_dht11`.
+
+* **Result**
+  
+  The resulting robot is just the basic line follower, but with a funny face on the screen that also somewhy shows the current temperature and humidity.

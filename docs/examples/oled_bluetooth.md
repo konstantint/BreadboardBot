@@ -8,8 +8,13 @@
 
   ![](../img/example-oled-bt-wiring.jpg)
 
-* **Program:** Change `code.py` to be just `import ex09_oled_bt`.
-* **Usage:** Install the [Arduino Bluetooth Controller app](https://play.google.com/store/apps/details?id=com.giristudio.hc05.bluetooth.arduino.control), launch it, pair to the `HC-06` device, open the "Gamepad" screen, and try steer your robot. 
+* **Programming**
+  
+  Change `code.py` to be just `import ex09_oled_bt`.
+
+* **Usage**
+  
+  Install the [Arduino Bluetooth Controller app](https://play.google.com/store/apps/details?id=com.giristudio.hc05.bluetooth.arduino.control), launch it, pair to the `HC-06` device, open the "Gamepad" screen, and try steer your robot. 
   
   Note that there are many "Bluetooth serial controller" apps out there and pretty much any one will do that can be configured to send predefined single-character commands (`F` for forward button down, `B` backward, `L` left, `R` right, `0` any button up). The example code also controls the eyes via the `S` (square), `C` (circle) and `T` (triangle) buttons.
   

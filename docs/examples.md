@@ -11,16 +11,7 @@
   * [Remote control using Bluetooth serial (HC05/06)](examples/oled_bluetooth.md)
 * **Xiao ESP32S3(-Sense)**
   * [Web-based control over Wifi & camera](examples/esp32s3_http_control.md)
+  * [Bluetooth gamepad steering (Arduino)](examples/bluepad32.md)
 * **M5Stack Atom Lite**
   * [Line follower using ESPHome](examples/m5stack_atom_lite_line_follower.md)
-
-Examples pending documentation:
-
-* MPU6050 accelerometer & self-balancing
-
-  <img src="img/example-mpu6050.jpg" width="100"/>
-
-* Joystick ([video](https://www.youtube.com/shorts/SHxjkkJ96kc))
-* Microphone
-* PIR sensor
-* Two communicating robots
+  * [Bluetooth gamepad steering (Arduino)](examples/bluepad32.md)

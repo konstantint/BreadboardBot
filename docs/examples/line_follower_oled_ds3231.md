@@ -10,5 +10,10 @@ Because why not?
 
   ![](../img/example-oled-ds3231-wiring.jpg)
 
-* **Program:** Change `code.py` to be just `import ex07_line_follower_oled_ds3231`.
-* The resulting robot is just the basic line follower that shows the current date and time (which can survive poweroffs as long as the dedicated DS3231 battery lasts).
+* **Programming**
+  
+  Change `code.py` to be just `import ex07_line_follower_oled_ds3231`.
+
+* **Result**
+  
+  The resulting robot is just the basic line follower that shows the current date and time (which can survive poweroffs as long as the dedicated DS3231 battery lasts).
