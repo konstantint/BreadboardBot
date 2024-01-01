@@ -14,11 +14,13 @@ This example requires the use of the [Xiao ESP32S3](https://www.seeedstudio.com/
 
   Next, remove the `lib` folder and replace it with the `lib` directory from [code/circuitpython/libraries/v8](https://github.com/konstantint/BreadboardBot/tree/main/code/circuitpython/libraries/v8). Make sure that your MCU's root directory contains the `settings.toml` file from the `examples` folder - without it the camera crashes with an out of memory error.
 
-  Then edit the `wifi_config.py`, specifying the correct Wifi SSID and password.
+  Then edit `wifi_config.py`, specifying the correct Wifi SSID and password.
 
   Finally, edit `code.py` to do `import esp32s3_http_control` or `import esp32s3sense_http_control_cam` respectively.
 
 * **Result**
   
   On boot the microcontroller will show a web server, reporting its IP in both the serial debug message and on the OLED screen. You can connect to that address and use the forward/backward/left/right/stop buttons to control the motors and view the live camera image.
+
+  Unfortunately, this is not a very practical solution, as the microcontroller seems to heat up *a lot* and with the BreadboardBot lacking any cooling system, it might not last for longer sessions. It also consumes the battery rather quickly.
 

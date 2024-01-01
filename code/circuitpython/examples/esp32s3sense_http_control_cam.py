@@ -6,7 +6,7 @@ from breadboardbot.platform_esp32s3 import *
 from breadboardbot.http_controller import *
 import mdns
 import wifi
-import wifi_config
+import wifo_config
 
 # Connect to wifi
 wifi.radio.connect(wifi_config.SSID, wifi_config.PASSWORD)

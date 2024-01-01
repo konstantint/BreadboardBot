@@ -1,15 +1,22 @@
 #include "Robot.h"
 
-#ifdef M5ATOM
+#ifdef BOARD_M5ATOM
 int SERVO_LEFT_PIN = 21;
 int SERVO_RIGHT_PIN = 25;
 #else
+// "Base assembly" wiring
 int SERVO_LEFT_PIN = 1;
 int SERVO_RIGHT_PIN = 43;
 #endif
 
+#ifdef MOTORS_GEEKSERVO
+int SERVO_US_LOW = 500;
+int SERVO_US_HIGH = 2500;
+#else
+// SG90 config
 int SERVO_US_LOW = 1000;
 int SERVO_US_HIGH = 2000;
+#endif
 
 inline float clamp(float value, float min, float max) {
   return value < min ? min : value > max ? max : value;
@@ -26,7 +33,7 @@ void Robot::setup() {
   servo_left.attach(SERVO_LEFT_PIN, SERVO_US_LOW, SERVO_US_HIGH);
   servo_right.attach(SERVO_RIGHT_PIN, SERVO_US_LOW, SERVO_US_HIGH);
 
-#ifdef M5ATOM
+#ifdef BOARD_M5ATOM
   neopixel.begin();
   setLed(64, 0, 0);
 #else
@@ -51,7 +58,7 @@ void Robot::driveTT(float throttle, float turn) {
 }
 
 void Robot::setLed(uint8_t r, uint8_t g, uint8_t b) {
-#ifdef M5ATOM
+#ifdef BOARD_M5ATOM
   neopixel.setPixelColor(0, neopixel.Color(r, g, b));
   neopixel.show();
 #else

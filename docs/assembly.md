@@ -118,7 +118,7 @@ I am pretty sure there could be an even more foolproof connector option here - i
 * Hold the "BOOT" button on the Xiao RP2040 and while holding it connect it via USB to your computer. A new external drive named `RPI2-RP2` should appear. Copy the `.uf2` file downloaded in the previous step to this drive. When download completes, the microcontroller restarts and an external drive named `CIRCUITPY` should appear.
   * You can read more about this flashing process [here](https://wiki.seeedstudio.com/XIAO-RP2040-with-CircuitPython/).
 * Copy the contents of the [code/circuitpython/examples](https://github.com/konstantint/BreadboardBot/tree/main/code/circuitpython/examples) directory to that drive.
-* If you are using GeekServo-style servos, edit the file `breadboardbot/platform_rp2040.py`: replace the line `motor_speed_multiplier=0.1` with `motor_speed_multiplier=0.75`.
+* If you are using GeekServo-style servos, edit the file `breadboardbot/platform_rp2040.py`: replace the line `motors_model=motors.MotorsModel.SG90` with `motors_model=motors.MotorsModel.GEEKSERVO`.
 
 If all went fine, you should observe that the newly uploaded program first blinks the green LED and then starts showing a rainbow effect on its RGB LED.
 

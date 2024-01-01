@@ -10,14 +10,14 @@ bot.loop_forever(
         RainbowAnimation(),
         TimedSequence(
             [
-                (lambda robot: robot.drive(1, 1), 2.0),
-                (lambda robot: robot.drive(0, 0), 0.5),
-                (lambda robot: robot.drive(-1, 1), 1.0),
-                (lambda robot: robot.drive(0, 0), 0.5),
-                (lambda robot: robot.drive(1, 1), 2.0),
-                (lambda robot: robot.drive(0, 0), 0.5),
-                (lambda robot: robot.drive(1, -1), 1.0),
-                (lambda robot: robot.drive(0, 0), 0.5),
+                (lambda robot: robot.motors.drive(1, 1), 2.0),
+                (lambda robot: robot.motors.drive(0, 0), 0.5),
+                (lambda robot: robot.motors.drive(-1, 1), 1.0),
+                (lambda robot: robot.motors.drive(0, 0), 0.5),
+                (lambda robot: robot.motors.drive(1, 1), 2.0),
+                (lambda robot: robot.motors.drive(0, 0), 0.5),
+                (lambda robot: robot.motors.drive(1, -1), 1.0),
+                (lambda robot: robot.motors.drive(0, 0), 0.5),
             ]
         ),
     ]

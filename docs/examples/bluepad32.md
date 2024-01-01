@@ -14,7 +14,8 @@ The two microcontrollers this example has been tested with so far are the [M5Sta
 
   The code for this example is given in [code/arduino/Bluepad](https://github.com/konstantint/BreadboardBot/tree/main/code/arduino/Bluepad). You can either use the Arduino IDE or the Arduino CLI to compile and upload it to your microcontroller.
 
-  * If you are using the M5Atom, edit `Robot.h` and uncomment the line `#define M5ATOM`. 
+  * If you are using the M5Atom, edit `config.h` and uncomment the line `#define BOARD_M5ATOM`. 
+  * If you are using the GeekServo motors, edit `config.h` and uncomment the line `#define MOTORS_GEEKSERVO`. 
   * If you are using the Arduino IDE:
     * Add `ESP32` and `Bluepad32 + ESP32` board packages as described [here](https://github.com/ricardoquesada/bluepad32/blob/main/docs/plat_arduino.md#option-a-create-an-arduino-core-for-esp32--bluepad32-library).
     * Install the `ESP32Servo` and `Adafruit NeoPixel` libraries.

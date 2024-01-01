@@ -1,10 +1,8 @@
 #ifndef ROBOT_H
 #define ROBOT_H
+#include "config.h"
 
-// Uncoment this for the M5ATOM version
-// #define M5ATOM
-
-#ifdef M5ATOM
+#ifdef BOARD_M5ATOM
 #include <Adafruit_NeoPixel.h>
 #endif
 #include <ESP32Servo.h>
@@ -21,7 +19,7 @@ class Robot {
   Servo servo_right;
   ESP32PWM pwm;
 
-#ifdef M5ATOM
+#ifdef BOARD_M5ATOM
   Adafruit_NeoPixel neopixel = Adafruit_NeoPixel(
       /* num_pixels=*/1, /* pin=*/27, NEO_GRB + NEO_KHZ800);
 #endif

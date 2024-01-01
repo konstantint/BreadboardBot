@@ -6,6 +6,7 @@ import board
 import busio
 from digitalio import DigitalInOut, Direction
 import keypad
+from breadboardbot import motors
 import neopixel
 import pwmio
 import time
@@ -22,18 +23,15 @@ class Robot:
         i2c=False,
         uart=False,
         motor_right_pin=board.D6,
-        # For blue "SG90" motors use 0.1
-        # For "GeekServo" motors with lego axis set it to 0.75
-        motor_speed_multiplier=0.1,
+        # Select the model of the motors attached
+        # either SG90 or GEEKSERVO
+        motors_model = motors.MotorsModel.SG90
+        # motors_model = motors.MotorsModel.GEEKSERVO
     ):
         self.led = DigitalInOut(board.LED_GREEN)
         self.led.direction = Direction.OUTPUT
         self.keys = keypad.Keys((board.D1,), value_when_pressed=False, pull=True)
-        self.motor_left = servo.ContinuousServo(pwmio.PWMOut(board.D0, frequency=50))
-        self.motor_right = servo.ContinuousServo(
-            pwmio.PWMOut(motor_right_pin, frequency=50)
-        )
-        self.motor_speed_multiplier = motor_speed_multiplier
+        self.motors = motors.Motors(board.D0, motor_right_pin, motors_model)
         if line_sensors:
             self.line_left = DigitalInOut(board.D10)
             self.line_right = DigitalInOut(board.D7)
@@ -95,18 +93,6 @@ class Robot:
         now = self.now
         while self.now < now + duration:
             self.update()
-
-    def drive(self, left_throttle, right_throttle):
-        # Every cheap servo is a unique snowflake and if you want to get
-        # better precision, you might want to calibrate the constants used
-        # here until calling drive(0, 0) consistently results in fully stopped
-        # motors
-        self.motor_left.throttle = min(
-            1, max(1.3 * self.motor_speed_multiplier * left_throttle - 0.07, -1)
-        )
-        self.motor_right.throttle = min(
-            1, max(-1.1 * self.motor_speed_multiplier * right_throttle, -1)
-        )
 
     def get_sonar_distance(self):
         if (

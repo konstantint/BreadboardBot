@@ -8,7 +8,7 @@ class RainbowAnimation:
 
 class LineFollowing:
     def __call__(self, robot):
-        robot.drive(robot.line_left.value, robot.line_right.value)
+        robot.motors.drive(robot.line_left.value, robot.line_right.value)
 
 
 class DistanceBeeping:
@@ -43,10 +43,10 @@ class ObstacleAvoidance:
         if d < self.close_distance:
             self.n_close_measurements += 1
             if self.n_close_measurements >= 2:
-                robot.drive(-1, 1)
+                robot.motors.drive(-1, 1)
                 # This prevents all other behaviors
                 # for a short while
-                robot.sleep(0.4)
+                robot.sleep(0.3)
         else:
             self.n_close_measurements = 0
 
@@ -56,7 +56,7 @@ class IRObstacleAvoidance:
 
     def __call__(self, robot):
         if not self.pin.value:
-            robot.drive(-1, 1)
+            robot.motors.drive(-1, 1)
             # This prevents all other behaviors
             # for a short while
             robot.sleep(0.4)
