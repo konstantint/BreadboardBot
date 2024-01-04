@@ -22,6 +22,7 @@ class Robot:
         dht11=False,
         i2c=False,
         uart=False,
+        buzzer=False,
         motor_right_pin=board.D6,
         # Select the model of the motors attached
         # either SG90 or GEEKSERVO
@@ -50,10 +51,11 @@ class Robot:
         self.rainbow = Rainbow(self.rgb_pixel, speed=0.1, period=2)
         self.last_sonar_measurement_time = -1
         self.last_sonar_measurement = None
-        self.buzzer_pin = board.D9
-        self.buzzer_pwm = pwmio.PWMOut(
-            self.buzzer_pin, frequency=1000, variable_frequency=True
-        )
+        if buzzer:
+            self.buzzer_pin = board.D9
+            self.buzzer_pwm = pwmio.PWMOut(
+                self.buzzer_pin, frequency=1000, variable_frequency=True
+            )
         self.buzzer_off_time = None
         self.led_off_time = None
         self.now = time.monotonic()
@@ -61,7 +63,7 @@ class Robot:
         # Welcome triple-blink / beep
         for i in range(3):
             self.blink()
-            self.beep()
+            if buzzer: self.beep()
             self.sleep(0.1)
 
     def update(self):

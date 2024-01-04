@@ -1,0 +1,29 @@
+# Xiao RGB Matrix
+
+<img src="../img/example-xiao-rgb-matrix.jpg" width="400"/>
+
+The [Xiao RGB Matrix](https://www.seeedstudio.com/6x10-RGB-MATRIX-for-XIAO-p-5771.html) is a cute add-on for the Xiao microcontroller. It is intended to be plugged *into the back* of the microcontroller, but with a couple of long pin headers we can plug it into our breadboard suspended right above our microcontroller.
+
+* **Wiring**
+
+  The photo and wiring diagrams below show how to add the RGB matrix to the [Sonar line follower](line_follower_sonar.md) wiring configuration, but you can just as well start with the [base assembly](../assembly.md).
+  
+  The RGB matrix needs to be connected to GND, 5V and an output pin (D9 in our example). We need two pairs of long (17mm or longer) pin headers. The pair on the left will be connected to GND and 5V. The top pin from pair on the right needs to be wired to the output pin.
+
+  ![](../img/example-xiao-rgb-matrix-wiring.jpg)
+
+  Then plug the RGB matrix (with its standard female connectors soldered) onto the four pins, making sure it is correctly oriented - verify the labeling for 5V, GND and IN on the board.
+
+* **Programming**
+  
+  Change `code.py` to be just `import ex10_rgb_matrix`.
+
+* **Result**
+  
+  The resulting robot is a version of the sonar-equipped line follower that also makes use of the RGB matrix (first scrolls some text, then shows a selection of rainbow effects). Here is the [video](https://youtu.be/A6sq72KMCfU) of the animation.
+
+## Bonus challenge
+
+Note that you can technically connect two such matrices to the face of the BreadboardBot symmetrically (using a slightly different wiring). Programming them to work as a single display might be a bit of a chore, though.
+
+![](../img/example-xiao-rgb-matrix-2.jpg)

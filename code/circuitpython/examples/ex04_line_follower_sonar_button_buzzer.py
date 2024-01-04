@@ -5,7 +5,7 @@ from breadboardbot.platform_rp2040 import *
 from breadboardbot.behaviors import *
 from breadboardbot import melodies
 
-bot = Robot(sonar=True)
+bot = Robot(sonar=True, buzzer=True)
 
 
 def stop_and_play(robot):

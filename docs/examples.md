@@ -4,6 +4,7 @@
   * [Basic line follower](examples/line_follower.md)
   * [Sonar-based obstacle-avoiding line-follower](examples/line_follower_sonar.md)
   * [Sonar-based obstacle-avoiding line-follower with a button & a buzzer](examples/line_follower_sonar_button_buzzer.md)
+  * [Sonar-based obstacle-avoiding line-follower with an RGB LED matrix](examples/xiao_rgb_matrix.md)
   * [Line follower with an OLED face](examples/line_follower_oled.md)
   * [Line follower with an OLED face that shows temperature and humidity](examples/line_follower_oled_dht11.md)
   * [Line follower with an OLED screen that shows current date and time](examples/line_follower_oled_ds3231.md)
