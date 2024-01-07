@@ -6,8 +6,12 @@ from breadboardbot.xiao_rgb_matrix import *
 
 
 bot = Robot(sonar=True)
-rgb_matrix = XiaoRGBMatrix(board.D9)
-scrolling_text = ScrollingText(rgb_matrix, "Hello")
+# Single matrix example
+matrices = [XiaoRGBMatrix(board.D9)]
+# Alternatively, with two matrices:
+# matrices = [XiaoRGBMatrix(board.D8, left_orientation=False), XiaoRGBMatrix(board.D9)]
+scrolling_text = ScrollingText(matrices, "Hello!", rainbow=True)
+
 
 bot.loop_forever(
     behaviors=[
@@ -15,10 +19,13 @@ bot.loop_forever(
         ObstacleAvoidance(),
         TimedSequence(
             [
-                (scrolling_text, 3),
-                (lambda _: rgb_matrix.demo_animation.animate(), 20),
+                (scrolling_text, 6),
+                (
+                    lambda _: list(map(lambda x: x.demo_animation.animate(), matrices)),
+                    20,
+                ),
                 # set_text resets the scroll to position 0
-                (lambda _: scrolling_text.set_text("Hello"), 0),
+                (lambda _: scrolling_text.set_text("Hello!"), 0),
             ]
         ),
     ]

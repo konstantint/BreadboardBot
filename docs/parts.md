@@ -21,16 +21,18 @@ You can plug a variety of breadboard-friendly gadgets into the robot, as long as
 
 The components listed below are just a small selection of things that have been tested so far and are supported by some of the provided code examples.
 
-| **Image**&nbsp;&nbsp; | **Component** | **Price** | **Notes** |
-| --------------------- | ------------- | --------- | --------- |
-| <img src="img/part-linesensor.jpg" width="50"> | 2 x [Line-tracker sensor](https://aliexpress.com/item/1005003297744025.html)  | $1 | Make sure you get the model with pins ordered OUT, VCC, GND (when the sensor is looking down). |
-| <img src="img/part-rcwl1601.jpg" width="50"> | [RCWL-1601 sonar](https://aliexpress.com/item/1005004215620216.html)  | $1.5 | NB: This is *not* the popular HC-SR04 ("blue") sensor. The blue one requires 5V input, this one works with 3.3V. |
-| <img src="img/part-buzzer.jpg" width="50"> | [Passive buzzer](https://aliexpress.com/item/1005006205295709.html)  | $0.2 | There are many options, I've yet to find one that fits the breadboard perfectly. |
-| <img src="img/part-button-1.jpg" width="50"> | Button ([1](https://de.aliexpress.com/item/32834276752.html), [2](https://aliexpress.com/item/32843612610.html))  | $0.05 | There are many options, I've yet to find one that I like best. |
-| <img src="img/part-screen.jpg" width="50"> | [0.96" SSD1306 OLED](https://aliexpress.com/item/1005005281256695.html)  | $2 | |
-| <img src="img/part-hc06.jpg" width="50"> | [HC06 Bluetooth serial transceiver (4-pin)](https://aliexpress.com/item/1005005648270683.html)  | $2.4 | |
-| <img src="img/part-dht11.jpg" width="50"> | [DHT11 humidity & temperature sensor](https://aliexpress.com/item/1005006223904588.html)  | $0.7 | |
-| <img src="img/part-ir.jpg" width="50"> | [IR proximity sensor](https://de.aliexpress.com/item/1005005064947064.html)  | $1 | |
+| **Image**&nbsp;&nbsp; | **Component** | **Price** | **Notes** | **Example** |
+| --------------------- | ------------- | --------- | --------- | -- |
+| <img src="img/part-linesensor.jpg" width="50"> | 2 x [Line-tracker sensor](https://aliexpress.com/item/1005003297744025.html)  | $1 | Make sure you get the model with pins ordered OUT, VCC, GND (when the sensor is looking down). | [[1](examples/line_follower.md)] 
+| <img src="img/part-rcwl1601.jpg" width="50"> | [RCWL-1601 sonar](https://aliexpress.com/item/1005004215620216.html)  | $1.5 | NB: This is *not* the popular HC-SR04 ("blue") sensor. The blue one requires 5V input, this one works with 3.3V. | [[1](examples/line_follower_sonar.md)] 
+| <img src="img/part-buzzer.jpg" width="50"> | [Passive buzzer](https://aliexpress.com/item/1005006205295709.html)  | $0.2 | There are many options, I've yet to find one that fits the breadboard perfectly. | [[1](examples/line_follower_sonar_button_buzzer.md)] 
+| <img src="img/part-button-1.jpg" width="50"> | Button ([1](https://de.aliexpress.com/item/32834276752.html), [2](https://aliexpress.com/item/32843612610.html))  | $0.05 | There are many options, I've yet to find one that I like best. | [[1](examples/line_follower_sonar_button_buzzer.md)] 
+| <img src="img/part-screen.jpg" width="50"> | [0.96" SSD1306 OLED](https://aliexpress.com/item/1005005281256695.html)  | $2 | | [[1](examples/line_follower_oled.md)] 
+| <img src="img/part-hc06.jpg" width="50"> | [HC06 Bluetooth serial transceiver (4-pin)](https://aliexpress.com/item/1005005648270683.html)  | $2.4 | | [[1](examples/oled_bluetooth.md)] 
+| <img src="img/part-dht11.jpg" width="50"> | [DHT11 humidity & temperature sensor](https://aliexpress.com/item/1005006223904588.html)  | $0.7 | | [[1](examples/oled_oled_dht11.md)] 
+| <img src="img/part-ds3231.jpg" width="50"> | [DS3231 real-time clock](https://de.aliexpress.com/item/1005006359914113.html)  | $1.6 | | [[1](examples/oled_oled_ds3231.md)] 
+| <img src="img/part-ir.jpg" width="50"> | [IR proximity sensor](https://de.aliexpress.com/item/1005005064947064.html)  | $1 | | [[1](examples/oled_oled_ir.md)] 
+| <img src="img/part-xiao-rgb-matrix.jpg" width="50"> | [Xiao 6x10 RGB Matrix](https://www.seeedstudio.com/6x10-RGB-MATRIX-for-XIAO-p-5771.html)  | $5 | Get two of them if you have the budget. You will also need 17mm pin headers to attach the matrix suspended above the main microcontroller. | [[1](examples/xiao_rgb_matrix.md)]
 
 ## Expendables
 
@@ -42,7 +44,7 @@ You will need some expendable materials to assemble the robot as well as a set o
 | <img src="img/part-bolts.jpg" width="50">  | 2 x [M2 bolts](https://aliexpress.com/item/32907505613.html) 5-8mm | The bolts are somewhat optional - you can just stick the motors on the back of the breadboard without them. However, adding the screws makes the construction much more durable. The required length of the bolts depends on whether the head will sink inside the opening.
 |   | Hot glue | In theory this can be any glue that will stick servo connectors to the side of the breadboard. I was hoping superglue would work, but it somewhy did not hold at all for me. Hot glue did the job very well. This may depend on the actual plastic used for the breadboard - it seems there are slight variations.
 |  | [Two-sided sticky tape](https://aliexpress.com/item/1005005380522382.html) | Any two-sided tape should do, but I really like the linked one (the 30mm-wide one). Worth having at home in general.
-| <img src="img/part-pinheader.jpg" width="50">   | [Pin headers](https://aliexpress.com/item/1005003012878518.html) | Firstly, you will definitely need the "usual", male, 11mm headers (2 sets of 7 pins) to solder onto the MCU. In addition, headers for the battery box are needed and there are two options. The "basic" one is to solder two 11mm male pin headers to the battery wires (in this case you might also want to get some heatshrink or insulation wire). A fancier option (less prone to a battery misconnection that can burn your MCU) is to crimp a 3x1 *female* header on the battery wire (you will need a crimper tool for that) and have it plug onto male headers sticking out of the breadboard. For that you will need to get three 15mm male pinheaders.
+| <img src="img/part-pinheader.jpg" width="50">   | [Pin headers](https://aliexpress.com/item/1005003012878518.html) | Firstly, you will definitely need the "usual", male, 11mm headers (2 sets of 7 pins) to solder onto the MCU. In addition, headers for the battery box are needed and there are two options. The "basic" one is to solder two 11mm male pin headers to the battery wires (in this case you might also want to get some heatshrink or insulation wire). A fancier option (less prone to a battery misconnection that can burn your MCU) is to crimp a 3x1 *female* header on the battery wire (you will need a crimper tool for that) and have it plug onto male headers sticking out of the breadboard. For that you will need to get three 15mm male pin headers. Finally, if you want to attach the RGB matrix, get a row of 17mm male pin headers as well.
 
 ## Tools
 

@@ -4,6 +4,8 @@
 
 The [Xiao RGB Matrix](https://www.seeedstudio.com/6x10-RGB-MATRIX-for-XIAO-p-5771.html) is a cute add-on for the Xiao microcontroller. It is intended to be plugged *into the back* of the microcontroller, but with a couple of long pin headers we can plug it into our breadboard suspended right above our microcontroller.
 
+This example looks nice on its own on the breadboard as well, without the wheels and all other parts of the robot.
+
 * **Wiring**
 
   The photo and wiring diagrams below show how to add the RGB matrix to the [Sonar line follower](line_follower_sonar.md) wiring configuration, but you can just as well start with the [base assembly](../assembly.md).
@@ -22,8 +24,12 @@ The [Xiao RGB Matrix](https://www.seeedstudio.com/6x10-RGB-MATRIX-for-XIAO-p-577
   
   The resulting robot is a version of the sonar-equipped line follower that also makes use of the RGB matrix (first scrolls some text, then shows a selection of rainbow effects). Here is the [video](https://youtu.be/A6sq72KMCfU) of the animation.
 
-## Bonus challenge
+## Two RGB matrices
 
-Note that you can technically connect two such matrices to the face of the BreadboardBot symmetrically (using a slightly different wiring). Programming them to work as a single display might be a bit of a chore, though.
+If you have two RGB matrices you can attach them both to form a longer "screen":
 
-![](../img/example-xiao-rgb-matrix-2.jpg)
+<img src="../img/example-xiao-rgb-matrix-2.jpg" width="400"/>
+
+You can use the following wiring to attach the left matrix to pin D8 and the right one to D9 (while still supporting two line sensors and a sonar):
+
+<img src="../img/example-xiao-rgb-matrix-wiring-2.jpg" width="400"/>
