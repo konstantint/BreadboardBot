@@ -1,5 +1,5 @@
-# Xiao LED matrix behaviors
-from adafruit_pixel_framebuf import PixelFramebuffer
+import adafruit_framebuf
+from adafruit_led_animation.grid import PixelGrid, VERTICAL
 from adafruit_led_animation.animation.blink import Blink
 from adafruit_led_animation.animation.sparklepulse import SparklePulse
 from adafruit_led_animation.animation.comet import Comet
@@ -19,57 +19,151 @@ import neopixel
 import time
 
 
-class XiaoRGBMatrix:
-    def __init__(self, pin, left_orientation=True):
-        # left_orientation = True for a matrix with its 5V & IN pins near the left robot wheel
-        # left_orientation = False for a matrix with its 5V & IN pins oriented towards the right robot wheel
-        self.pin = pin
-        self.height = 6
-        self.width = 10
-        self.pixels = neopixel.NeoPixel(
-            pin,
-            self.height * self.width,
-            brightness=0.1,
-            auto_write=False,
+class XiaoRGBMatrix(adafruit_framebuf.FrameBuffer):
+    """Version of adafruit_pixel_framebuf.PixelFramebuffer for
+    one or two Xiao RGB matrices attached to the BreadboardBot.
+
+    Supports three configurations:
+        - a single "right-side" matrix (attached with the 5V and IN
+          pins looking towards the left robot wheel),
+        - a single "left-side" matrix (attached with the 5V and IN
+          pins looking towards the right robot wheel),
+        - both matrices attached next to each other, forming a single
+          screen.
+    """
+
+    def __init__(self, pin_left=None, pin_right=None, brightness=0.1) -> None:
+        self._height = 6
+        self._width = 0
+        if pin_left:
+            self.pixels_left = neopixel.NeoPixel(
+                pin_left,
+                6 * 10,
+                brightness=brightness,
+                auto_write=False,
+            )
+            self._grid_left = PixelGrid(
+                self.pixels_left,
+                width=10,
+                height=6,
+                orientation=VERTICAL,
+                alternating=False,
+                reverse_y=True,
+            )
+            self._width += 10
+        else:
+            self.pixels_left = None
+            self._grid_left = None
+        if pin_right:
+            self.pixels_right = neopixel.NeoPixel(
+                pin_right,
+                6 * 10,
+                brightness=brightness,
+                auto_write=False,
+            )
+            self._grid_right = PixelGrid(
+                self.pixels_right,
+                width=10,
+                height=6,
+                orientation=VERTICAL,
+                alternating=False,
+                reverse_x=True,
+            )
+            self._width += 10
+        else:
+            self.pixels_right = None
+            self._grid_right = None
+
+        self._buffer = bytearray(self._width * self._height * 3)
+        self._double_buffer = bytearray(self._width * self._height * 3)
+        super().__init__(
+            self._buffer, self._width, self._height, buf_format=adafruit_framebuf.RGB888
         )
-        self.framebuf = PixelFramebuffer(
-            self.pixels,
-            # Height & width are flipped here because of rotation=3 or 1
-            self.height,
-            self.width,
-            alternating=False,
-        )
-        self.framebuf.rotation = 3 if left_orientation else 1
-        self.demo_animation = AnimationSequence(
-            # Blink(self.pixels, speed=0.5, color=JADE)
-            # ColorCycle(self.pixels, speed=0.4, colors=[MAGENTA, ORANGE])
-            # Comet(self.pixels, speed=0.01, color=PURPLE, tail_length=10, bounce=True)
-            # Chase(self.pixels, speed=0.1, size=3, spacing=6, color=WHITE)
-            RainbowComet(self.pixels, speed=0.03, tail_length=7, bounce=True),
-            RainbowSparkle(self.pixels, speed=0.1, num_sparkles=15),
-            # Rainbow(self.pixels, speed=0.1, period=2),
-            RainbowChase(self.pixels, speed=0.1, size=3, spacing=2, step=8),
-            Pulse(self.pixels, speed=0.02, period=3, color=AMBER),
-            # Sparkle(self.pixels, speed=0.1, color=PURPLE, num_sparkles=10),
-            # Solid(self.pixels, color=JADE)
-            # SparklePulse(self.pixels, speed=0.1, period=3, color=JADE)
-            # CustomColorChase(
-            #     self.pixels, speed=0.1, size=2, spacing=3, colors=[ORANGE, WHITE, JADE]
-            # ),
-            advance_interval=7,
-            auto_clear=True,
-        )
+
+    def display(self) -> None:
+        """Copy the raw buffer changes to one or two grids and show"""
+        x_offset = 0
+        if self._grid_left:
+            for _x in range(10):
+                for _y in range(self._height):
+                    index = (_y * self.stride + _x) * 3
+                    if (
+                        self._buffer[index : index + 3]
+                        != self._double_buffer[index : index + 3]
+                    ):
+                        self._grid_left[(_x, _y)] = tuple(
+                            self._buffer[index : index + 3]
+                        )
+                        self._double_buffer[index : index + 3] = self._buffer[
+                            index : index + 3
+                        ]
+            x_offset += 10
+            self._grid_left.show()
+        if self._grid_right:
+            for _x in range(10):
+                for _y in range(self._height):
+                    index = (_y * self.stride + _x + x_offset) * 3
+                    if (
+                        self._buffer[index : index + 3]
+                        != self._double_buffer[index : index + 3]
+                    ):
+                        self._grid_right[(_x, _y)] = tuple(
+                            self._buffer[index : index + 3]
+                        )
+                        self._double_buffer[index : index + 3] = self._buffer[
+                            index : index + 3
+                        ]
+            self._grid_right.show()
+
+
+class DemoAnimation:
+    """A demo animation behavior on one or two Xiao RGB matrices."""
+
+    def __init__(self, rgb_matrix):
+        self._rgb_matrix = rgb_matrix
+        self.pixels = []
+        if rgb_matrix.pixels_left:
+            self.pixels.append(rgb_matrix.pixels_left)
+        if rgb_matrix.pixels_right:
+            self.pixels.append(rgb_matrix.pixels_right)
+        self.animations = []
+        for p in self.pixels:
+            self.animations.append(
+                AnimationSequence(
+                    # Blink(p, speed=0.5, color=JADE)
+                    # ColorCycle(p, speed=0.4, colors=[MAGENTA, ORANGE])
+                    # Comet(p, speed=0.01, color=PURPLE, tail_length=10, bounce=True)
+                    # Chase(p, speed=0.1, size=3, spacing=6, color=WHITE)
+                    RainbowComet(p, speed=0.03, tail_length=7, bounce=True),
+                    RainbowSparkle(p, speed=0.1, num_sparkles=15),
+                    # Rainbow(p, speed=0.1, period=2),
+                    RainbowChase(p, speed=0.1, size=3, spacing=2, step=8),
+                    Pulse(p, speed=0.02, period=3, color=AMBER),
+                    # Sparkle(p, speed=0.1, color=PURPLE, num_sparkles=10),
+                    # Solid(p, color=JADE)
+                    # SparklePulse(p, speed=0.1, period=3, color=JADE)
+                    # CustomColorChase(
+                    #     p, speed=0.1, size=2, spacing=3, colors=[ORANGE, WHITE, JADE]
+                    # ),
+                    advance_interval=7,
+                    auto_clear=True,
+                )
+            )
+
+    def __call__(self, robot):
+        for a in self.animations:
+            a.animate()
 
 
 RAINBOW = [0xFF0000, 0xFFA500, 0xFFFF00, 0x008000, 0x0000FF, 0x4B0082, 0xEE82EE]
 
 
 class ScrollingText:
-    """Scrolls text over one or more RGB matrices, positioned left to right."""
+    """Scrolls text over a given pixel framebuffer."""
 
     def __init__(
         self,
-        rgb_matrices,
+        framebuffer,
         text,
         text_color=0x444444,
         background_color=0x000000,
@@ -77,8 +171,7 @@ class ScrollingText:
         repeat=True,
         rainbow=False,  # When True, text_color is ignored
     ):
-        self._rgb_matrices = rgb_matrices
-        self._total_width = sum(m.width for m in self._rgb_matrices)
+        self._framebuffer = framebuffer
         self._text_color = text_color
         self._background_color = background_color
         self._shift_delay = shift_delay
@@ -90,7 +183,7 @@ class ScrollingText:
         self._text = value
         # Pad the text with screen width from both sides to allow it to
         # scroll into and out of the screen
-        self._text_width_pixels = len(value) * 4 + 2 * self._total_width
+        self._text_width_pixels = len(value) * 4 + 2 * self._framebuffer.width
         self._shift_pos = 0
         self._animation_start = time.monotonic()
         self._last_shift = -1
@@ -102,18 +195,12 @@ class ScrollingText:
         if shift == self._last_shift:
             return
         self._last_shift = shift
-        accumulated_shift = shift
-        for m in self._rgb_matrices:
-            self._show_text(m, accumulated_shift)
-            accumulated_shift += m.width
-
-    def _show_text(self, matrix, shift):
-        matrix.framebuf.fill(self._background_color)
+        self._framebuffer.fill(self._background_color)
         if self._rainbow:
             col_id = 0
-            pos = self._total_width - shift
+            pos = self._framebuffer.width - shift
             for char in self._text:
-                matrix.framebuf.text(
+                self._framebuffer.text(
                     char,
                     pos,
                     0,
@@ -123,11 +210,11 @@ class ScrollingText:
                 pos += 4
                 col_id += 1
         else:
-            matrix.framebuf.text(
+            self._framebuffer.text(
                 self._text,
-                self._total_width - shift,
+                self._framebuffer.width - shift,
                 0,
                 self._text_color,
                 font_name="fonts/tom_thumb.bin",
             )
-        matrix.framebuf.display()
+        self._framebuffer.display()
