@@ -1,11 +1,9 @@
 from adafruit_httpserver import Server
-from adafruit_motor import servo
 import board
 import busio
 from digitalio import DigitalInOut, Direction
 import espcamera
 from breadboardbot import motors
-import pwmio
 import socketpool
 import time
 import wifi
@@ -28,7 +26,7 @@ class Robot:
     ):
         self.led = DigitalInOut(board.IO21)
         self.led.direction = Direction.OUTPUT
-        self.motors = motors.Motors(board.IO1, motor_right_pin, motors_model)
+        self.motors = motors.ContinuousServoMotors(board.IO1, motor_right_pin, motors_model)
         if uart:
             self.uart = busio.UART(board.IO43, board.IO44, baudrate=9600, timeout=0.1)
         if i2c:

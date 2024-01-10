@@ -1,5 +1,7 @@
 # BreadboardBot example projects
 
+## Starter experiments
+
 * **Xiao RP2040**
   * [Basic line follower](examples/line_follower.md)
   * [Sonar-based obstacle-avoiding line-follower](examples/line_follower_sonar.md)
@@ -10,6 +12,9 @@
   * [Line follower with an OLED screen that shows current date and time](examples/line_follower_oled_ds3231.md)
   * [IR-based obstacle-avoiding line-follower with an OLED face](examples/line_follower_oled_ir.md)
   * [Remote control using Bluetooth serial (HC05/06)](examples/oled_bluetooth.md)
+
+## Other microcontrollers
+
 * **Xiao ESP32S3(-Sense)**
   * [Web-based control over Wifi & camera](examples/esp32s3_http_control.md)
   * [Web-based control over Wifi & camera (Arduino)](examples/esp32s3sense_webfpv.md)
@@ -17,3 +22,7 @@
 * **M5Stack Atom Lite**
   * [Line follower (ESPHome)](examples/m5atom_line_follower.md)
   * [Bluetooth gamepad steering (Arduino)](examples/bluepad32.md)
+
+## Alternative assemblies
+
+  * [Line follower with DC motors](examples/hbridge_line_follower.md)

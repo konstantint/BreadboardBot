@@ -1,21 +1,30 @@
 #include "Robot.h"
+#include <Arduino.h>
 
 #ifdef BOARD_M5ATOM
-int SERVO_LEFT_PIN = 21;
-int SERVO_RIGHT_PIN = 25;
+const int SERVO_LEFT_PIN = 21;
+const int SERVO_RIGHT_PIN = 25;
 #else
 // "Base assembly" wiring
-int SERVO_LEFT_PIN = 1;
-int SERVO_RIGHT_PIN = 43;
+const int SERVO_LEFT_PIN = 1;
+const int SERVO_RIGHT_PIN = 43;
 #endif
 
 #ifdef MOTORS_GEEKSERVO
-int SERVO_US_LOW = 500;
-int SERVO_US_HIGH = 2500;
+const int SERVO_US_LOW = 500;
+const int SERVO_US_HIGH = 2500;
 #else
 // SG90 config
-int SERVO_US_LOW = 1000;
-int SERVO_US_HIGH = 2000;
+const int SERVO_US_LOW = 1000;
+const int SERVO_US_HIGH = 2000;
+#endif
+
+// The "DC" wiring example
+#ifdef MOTORS_DC
+const int DCMOTOR_LEFT_PIN_FWD = 9; // D10
+const int DCMOTOR_LEFT_PIN_BACK = 8; // D9
+const int DCMOTOR_RIGHT_PIN_FWD = 7; // D8
+const int DCMOTOR_RIGHT_PIN_BACK = 44; // D7
 #endif
 
 inline float clamp(float value, float min, float max) {
@@ -23,6 +32,12 @@ inline float clamp(float value, float min, float max) {
 }
 
 void Robot::setup() {
+#ifdef MOTORS_DC
+  analogWrite(DCMOTOR_LEFT_PIN_BACK, 0);
+  analogWrite(DCMOTOR_LEFT_PIN_FWD, 0);
+  analogWrite(DCMOTOR_RIGHT_PIN_BACK, 0);
+  analogWrite(DCMOTOR_RIGHT_PIN_FWD, 0);
+#else
   // Set up ESP32Servo
   ESP32PWM::allocateTimer(0);
   ESP32PWM::allocateTimer(1);
@@ -32,6 +47,7 @@ void Robot::setup() {
   servo_left.setPeriodHertz(50);  // Standard 50hz servo
   servo_left.attach(SERVO_LEFT_PIN, SERVO_US_LOW, SERVO_US_HIGH);
   servo_right.attach(SERVO_RIGHT_PIN, SERVO_US_LOW, SERVO_US_HIGH);
+#endif
 
 #ifdef BOARD_M5ATOM
   neopixel.begin();
@@ -42,6 +58,24 @@ void Robot::setup() {
 }
 
 void Robot::drive(float left_power, float right_power) {
+#ifdef MOTORS_DC
+  if (left_power > 0) {
+    analogWrite(DCMOTOR_LEFT_PIN_FWD, (int)(clamp(left_power, 0, 1)*255));
+    analogWrite(DCMOTOR_LEFT_PIN_BACK, 0);
+  }
+  else {
+    analogWrite(DCMOTOR_LEFT_PIN_BACK, (int)(clamp(-left_power, 0, 1)*255));
+    analogWrite(DCMOTOR_LEFT_PIN_FWD, 0);
+  }
+  if (right_power > 0) {
+    analogWrite(DCMOTOR_RIGHT_PIN_FWD, (int)(clamp(right_power, 0, 1)*255));
+    analogWrite(DCMOTOR_RIGHT_PIN_BACK, 0);
+  }
+  else {
+    analogWrite(DCMOTOR_RIGHT_PIN_BACK, (int)(clamp(-right_power, 0, 1)*255));
+    analogWrite(DCMOTOR_RIGHT_PIN_FWD, 0);
+  }
+#else
   // Left motor is mounted in reverse
   float left_us =
       (-clamp(left_power, -1, 1) + 1.0) / 2.0 * (SERVO_US_HIGH - SERVO_US_LOW) +
@@ -51,6 +85,7 @@ void Robot::drive(float left_power, float right_power) {
       SERVO_US_LOW;
   servo_left.writeMicroseconds((int)left_us);
   servo_right.writeMicroseconds((int)right_us);
+#endif
 }
 
 void Robot::driveTT(float throttle, float turn) {

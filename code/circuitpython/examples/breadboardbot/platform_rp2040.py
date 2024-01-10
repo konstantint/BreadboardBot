@@ -1,7 +1,6 @@
 import adafruit_dht
 import adafruit_hcsr04
 from adafruit_led_animation.animation.rainbow import Rainbow
-from adafruit_motor import servo
 import board
 import busio
 from digitalio import DigitalInOut, Direction
@@ -32,7 +31,7 @@ class Robot:
         self.led = DigitalInOut(board.LED_GREEN)
         self.led.direction = Direction.OUTPUT
         self.keys = keypad.Keys((board.D1,), value_when_pressed=False, pull=True)
-        self.motors = motors.Motors(board.D0, motor_right_pin, motors_model)
+        self.motors = motors.ContinuousServoMotors(board.D0, motor_right_pin, motors_model)
         if line_sensors:
             self.line_left = DigitalInOut(board.D10)
             self.line_right = DigitalInOut(board.D7)

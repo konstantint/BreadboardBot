@@ -10,3 +10,5 @@ import ex01_just_wandering
 # import ex10_rgb_matrix
 # import esp32s3_http_control
 # import esp32s3sense_http_control_cam
+# import hbridge_ex01_just_wandering
+# import hbridge_ex02_line_follower
