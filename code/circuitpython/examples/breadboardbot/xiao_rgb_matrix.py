@@ -15,7 +15,9 @@ from adafruit_led_animation.animation.rainbow import Rainbow
 from adafruit_led_animation.animation.customcolorchase import CustomColorChase
 from adafruit_led_animation.sequence import AnimationSequence
 from adafruit_led_animation.color import PURPLE, WHITE, AMBER, JADE, MAGENTA, ORANGE
+import colorsys
 import neopixel
+import random
 import time
 
 
@@ -170,6 +172,7 @@ class ScrollingText:
         shift_delay=0.1,
         repeat=True,
         rainbow=False,  # When True, text_color is ignored
+        scroll=True
     ):
         self._framebuffer = framebuffer
         self._text_color = text_color
@@ -177,6 +180,7 @@ class ScrollingText:
         self._shift_delay = shift_delay
         self._rainbow = rainbow
         self._repeat = repeat
+        self._scroll = scroll
         self.set_text(text)
 
     def set_text(self, value):
@@ -190,6 +194,8 @@ class ScrollingText:
 
     def __call__(self, robot):
         shift = int((robot.now - self._animation_start) / self._shift_delay)
+        if not self._scroll:
+            shift = self._framebuffer.width
         if self._repeat:
             shift = shift % self._text_width_pixels
         if shift == self._last_shift:
@@ -217,4 +223,44 @@ class ScrollingText:
                 self._text_color,
                 font_name="fonts/tom_thumb.bin",
             )
+        self._framebuffer.display()
+
+
+class FireAnimation:
+    def __init__(self, framebuffer):
+        self._framebuffer = framebuffer
+        self._fire = [bytearray([0]*self._framebuffer.width) for _ in range(self._framebuffer.height)]
+        self._fire_palette = bytearray([0]*(256*3))
+        for i in range(256):
+            self._fire_palette[3*i:(3*i+3)] = bytes(map(int, colorsys.hls_to_rgb(i/256/5, min(1.0, i/256/3), 1.0)))
+        self.burn = True
+
+    def __call__(self, *args):
+        # Compute fire
+        w, h = self._framebuffer.width, self._framebuffer.height
+        f = self._fire
+        # Other rows, top to bottom
+        for r in range(h-1, 0, -1):
+            for c in range(w):
+                f[r][c] = int((f[r-1][(c-1) % w]/16 + f[r-1][c] + f[r-1][(c+1) % w]/16)*75 / 129)
+                # f[r][c] = int(f[r-1][c]*90 / 129)
+        # Bottom row randomized
+        if self.burn:
+            for c in range(w):
+                f[0][c] = random.randint(0, 255)
+        else:
+            for c in range(w):
+                f[0][c] = 0
+        # for c in range(w-1, 0, -1):
+        #     for r in range(h):
+        #         # f[r][c] = int((f[(r-1) % h][c-1]/2 + f[r][c-1] + f[(r+1) % h][c-1]/2 + f[r][c-2]/2)*45 / 129)
+        #         f[r][c] = int((f[r][c-1])*114 / 129)
+
+        # Copy to framebuffer
+        for r in range(h):
+            for c in range(w):
+                v = f[r][c]*3
+                col = self._fire_palette[v:v+3]
+                self._framebuffer.pixel(c, h-1-r, tuple(col))
+        # self.framebuffer.text("burn", random.randint(0,2), random.randint(0,1), 0x0, font_name="fonts/tom_thumb.bin")
         self._framebuffer.display()
