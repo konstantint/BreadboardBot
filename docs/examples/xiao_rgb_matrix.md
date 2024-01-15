@@ -6,6 +6,8 @@ The [Xiao RGB Matrix](https://www.seeedstudio.com/6x10-RGB-MATRIX-for-XIAO-p-577
 
 This example looks nice on its own on the breadboard as well, without the wheels and all other parts of the robot.
 
+NB: the RGB matrix does not seem to work correctly when powered with more than 5.5V, which may be the case if your robot was built with a 4xAAA battery box and your NiMH batteries are fully charged. 
+
 * **Wiring**
 
   The photo and wiring diagrams below show how to add the RGB matrix to the [Sonar line follower](line_follower_sonar.md) wiring configuration, but you can just as well start with the [base assembly](../assembly.md).

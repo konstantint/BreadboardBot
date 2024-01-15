@@ -69,10 +69,11 @@ For GeekServo servos the process is similar, just make sure the "outside-facing"
 
 ![](img/assembly-wire-5.jpg)
 
+If you plan to use caster ball, make sure you don't have the wire sticking out too much on the bottom.
 
 ### 7. Screw the wheel adapters onto the motors
 
-If you are using SG90 servos with lego-style wheels, this is a good time to screw on the wheel adapters.
+If you are using FS90R servos with lego-style wheels, this is a good time to screw on the wheel adapters.
 
 ![](img/assembly-wheel-adapter-1.jpg)
 
