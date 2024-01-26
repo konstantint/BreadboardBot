@@ -3,7 +3,7 @@
 <img src="../img/example-hbridge-line-follower.jpg" width="400"/>
 <img src="../img/example-hbridge-line-follower-2.jpg" width="400"/>
 
-It is possible to build a version of BreadboardBot that uses DC motors rather than continuous servos. DC motors sometimes tend to allow slightly more precise steering (or at least cost less for an equivalent level of quality).
+It is possible to build a version of BreadboardBot that uses DC motors rather than continuous servos. DC motors sometimes tend to allow slightly more precise steering (or at least cost less for an equivalent level of quality). In particular, the  (follow-up) [self-balancing exercise](hbridge_self_balancing.md) is notably easier with DC motors.
 
 The motors will need to be connected via a dedicated driver (L298N or DRV8833 in this example). The need to have an extra board along with additional wiring leaves less room for other gadgets.
 

@@ -22,7 +22,7 @@ class Robot:
         server=False,
         camera=False,
         motor_right_pin=board.IO43,
-        motors_model=motors.MotorsModel.SG90,
+        motors_model=motors.MotorsModel.FS90R,
     ):
         self.led = DigitalInOut(board.IO21)
         self.led.direction = Direction.OUTPUT
@@ -77,7 +77,7 @@ class Robot:
             self.led_off_time = None
 
     def blink(self):
-        self.led.value = True
+        self.led.value = False
         self.led_off_time = self.now + 0.05
 
     def sleep(self, duration):

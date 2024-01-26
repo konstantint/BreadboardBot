@@ -1,14 +1,16 @@
 import adafruit_dht
 import adafruit_hcsr04
+import adafruit_mpu6050
 from adafruit_led_animation.animation.rainbow import Rainbow
 import board
 import busio
 from digitalio import DigitalInOut, Direction
 import keypad
-from breadboardbot import motors
+import math
 import neopixel
 import pwmio
 import time
+from breadboardbot import motors
 
 
 class Robot:
@@ -20,18 +22,27 @@ class Robot:
         sonar=False,
         dht11=False,
         i2c=False,
+        mpu=False,
         uart=False,
         buzzer=False,
         motor_right_pin=board.D6,
         # Select the model of the motors attached
-        # either SG90 or GEEKSERVO
-        motors_model = motors.MotorsModel.SG90
+        # either FS90R or GEEKSERVO
+        motors_model=motors.MotorsModel.FS90R
         # motors_model = motors.MotorsModel.GEEKSERVO
     ):
         self.led = DigitalInOut(board.LED_GREEN)
         self.led.direction = Direction.OUTPUT
+        self.led_blue = DigitalInOut(board.LED_BLUE)
+        self.led_blue.direction = Direction.OUTPUT
+        self.led_blue.value = True
+        self.led_red = DigitalInOut(board.LED_RED)
+        self.led_red.direction = Direction.OUTPUT
+        self.led_red.value = True
         self.keys = keypad.Keys((board.D1,), value_when_pressed=False, pull=True)
-        self.motors = motors.ContinuousServoMotors(board.D0, motor_right_pin, motors_model)
+        self.motors = motors.ContinuousServoMotors(
+            board.D0, motor_right_pin, motors_model
+        )
         if line_sensors:
             self.line_left = DigitalInOut(board.D10)
             self.line_right = DigitalInOut(board.D7)
@@ -43,9 +54,11 @@ class Robot:
             self.dht11 = adafruit_dht.DHT11(board.D8)
         if uart:
             self.uart = busio.UART(board.TX, board.RX, baudrate=9600, timeout=0.1)
-        if i2c:
+        if i2c or mpu:
             # SDA=D4, SCL=D5
             self.i2c = board.I2C()
+        if mpu:
+            self.mpu = adafruit_mpu6050.MPU6050(self.i2c)
         self.rgb_pixel = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.1)
         self.rainbow = Rainbow(self.rgb_pixel, speed=0.1, period=2)
         self.last_sonar_measurement_time = -1
@@ -62,7 +75,8 @@ class Robot:
         # Welcome triple-blink / beep
         for i in range(3):
             self.blink()
-            if buzzer: self.beep()
+            if buzzer:
+                self.beep()
             self.sleep(0.1)
 
     def update(self):
@@ -87,7 +101,7 @@ class Robot:
         self.buzzer_off_time = self.now + 0.05
 
     def blink(self):
-        self.led.value = True
+        self.led.value = False
         self.led_off_time = self.now + 0.05
 
     def sleep(self, duration):

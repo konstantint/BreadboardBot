@@ -10,7 +10,7 @@ To put it differently, it is **an educational robotics platform** that is:
 * **Easy to build**: it really is just two servo motors and a battery stuck to the back of a breadboard.
 * **Easy to program** thanks to [CircuitPython](https://circuitpython.org/).
 * **Fun**: even in its most basic form it is already a cute programmable line-follower robot with an ultrasonic distance sensor. 
-* **Creatively extensible**: you can plug a variety of sensors or actuators into it, enabling your robot to play music, show images on a screen, measure temperature, be remotely controlled from your smartphone and more. You can also upgrade the microcontroller to add Wifi, camera and microphone, learning some web-development and machine learning along the way!
+* **Creatively extensible**: you can plug a variety of sensors or actuators into it, enabling your robot to play music, show images on a screen, measure temperature, be remotely controlled from your smartphone, balance itself, and more. You can also upgrade the microcontroller to add Wifi, camera and microphone, learning some web-development and machine learning along the way!
 
 To get started with the BreadboardBot you need to:
 

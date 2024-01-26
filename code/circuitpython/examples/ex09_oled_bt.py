@@ -19,15 +19,15 @@ def handle_command(cmd):
     elif cmd == b"T":
         face.look(0)
     elif cmd == b"F":
-        bot.drive(1, 1)
+        bot.motors.drive(1, 1)
     elif cmd == b"B":
-        bot.drive(-1, -1)
+        bot.motors.drive(-1, -1)
     elif cmd == b"L":
-        bot.drive(-1, 1)
+        bot.motors.drive(-1, 1)
     elif cmd == b"R":
-        bot.drive(1, -1)
+        bot.motors.drive(1, -1)
     else:
-        bot.drive(0, 0)
+        bot.motors.drive(0, 0)
 
 
 bot.loop_forever(

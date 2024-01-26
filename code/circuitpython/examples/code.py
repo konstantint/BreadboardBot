@@ -8,7 +8,9 @@ import ex01_just_wandering
 # import ex08_line_follower_oled_ir
 # import ex09_oled_bt
 # import ex10_rgb_matrix
+# import ex11_self_balancing_bt
 # import esp32s3_http_control
 # import esp32s3sense_http_control_cam
 # import hbridge_ex01_just_wandering
 # import hbridge_ex02_line_follower
+# import hbridge_ex03_self_balancing

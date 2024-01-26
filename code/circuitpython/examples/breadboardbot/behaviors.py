@@ -1,6 +1,7 @@
 from digitalio import DigitalInOut
 import time
 
+
 class RainbowAnimation:
     def __call__(self, robot):
         robot.rainbow.animate()
@@ -50,6 +51,7 @@ class ObstacleAvoidance:
         else:
             self.n_close_measurements = 0
 
+
 class IRObstacleAvoidance:
     def __init__(self, pin):
         self.pin = DigitalInOut(pin)
@@ -60,6 +62,7 @@ class IRObstacleAvoidance:
             # This prevents all other behaviors
             # for a short while
             robot.sleep(0.4)
+
 
 class OnButtonClick:
     def __init__(self, behavior):
@@ -72,6 +75,11 @@ class OnButtonClick:
 
 
 class TimedSequence:
+    """Cycles through a given sequence of behaviours.
+
+    Stays at each behaviour for a given number of seconds.
+    """
+
     def __init__(self, behaviors_with_durations):
         self.behaviors_with_durations = behaviors_with_durations
         self.last_switch_time = time.monotonic()
@@ -86,3 +94,17 @@ class TimedSequence:
             self.last_switch_time = robot.now
             behavior, duration = self.behaviors_with_durations[self.current_behavior]
         behavior(robot)
+
+
+class MinLoopDuration:
+    """This behaviour can be added at the end of the list of behaviours.
+    It will then have the robot sleep until the loop takes a fixed duration.
+    """
+
+    def __init__(self, loop_duration):
+        self._loop_duration = loop_duration
+        self.last_loop_work_time = None
+
+    def __call__(self, robot):
+        self.last_loop_work_time = time.monotonic() - robot.now
+        robot.sleep(max(0, self._loop_duration - self.last_loop_work_time))
