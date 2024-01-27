@@ -59,6 +59,12 @@ With those observations in mind, let us none the less proceed.
 
   ![](../img/example-self-balancing-bt-app.jpg)
 
-  [Here](https://youtu.be/Jx0uGfr_hds) is the sort of self-balancing I managed to achieve (within an evening or so of tuning attempts). It holds itself in place well but is barely able to recover from even the lightest disturbances. Could you do better?
+* **Result**
 
-  It is certainly possible to do better with DC motors, so consider also trying [this example](hbridge_self_balancing.md)!
+  Here is the sort of self-balancing I managed to achieve within an evening or so of tuning attempts. The robot does hold itself in place reliably, but is barely able to recover from even the lightest disturbances. Could you do better?
+
+  <iframe width="640" height="390" frameborder="0" allowfullscreen
+          src="https://www.youtube.com/embed/Jx0uGfr_hds">
+  </iframe>
+
+  Balancing is much easier [on DC motors](hbridge_self_balancing.md).

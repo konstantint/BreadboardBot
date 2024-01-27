@@ -63,7 +63,9 @@ Then change `code.py` to be just `import hbridge_ex02_line_follower`.
 
 ## Result
   
-Here is [a video](https://youtu.be/8-w4K21s5hc) of the resulting robot in action.
+<iframe width="640" height="390" frameborder="0" allowfullscreen
+        src="https://www.youtube.com/embed/8-w4K21s5hc">
+</iframe>
 
 ## Bluetooth gamepad control
 

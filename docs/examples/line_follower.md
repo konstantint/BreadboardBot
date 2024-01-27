@@ -18,8 +18,9 @@
 
 * **Result**
   
-  The resulting robot should behave somewhat [like that](https://youtu.be/DHixDNT65I0).
-
+  <iframe width="640" height="390" frameborder="0" allowfullscreen
+          src="https://www.youtube.com/embed/DHixDNT65I0">
+  </iframe>
 
 ## Alternative wiring
 

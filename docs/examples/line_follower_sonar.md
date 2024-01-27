@@ -14,4 +14,8 @@
 
 * **Result**
   
-  The resulting robot should behave somewhat [like that](https://youtu.be/cBlWqL9eYWU). Note that you can hear the normally inaudible sonar working in the recording.
+  <iframe width="640" height="390" frameborder="0" allowfullscreen
+          src="https://www.youtube.com/embed/cBlWqL9eYWU">
+  </iframe>
+
+  Note that you can hear the normally inaudible sonar working in the recording.

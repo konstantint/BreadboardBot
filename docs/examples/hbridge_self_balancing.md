@@ -34,4 +34,6 @@ In an attempt to [self-balance the BreadboardBot on its stock servo motors](self
   
   Turn on the robot and hold it in a balanced position for 3 seconds to calibrate. It will then start attempting to maintain this position. If you did not hold it straight enough during the calibration period, it will drive off backwards or forwards and eventually fall rather than keeping balance - in this case just switch it off and on again to repeat the calibration.
 
-  [Here](https://youtu.be/ivGLBxfS5SU) is how the result may look like.
+  <iframe width="640" height="390" frameborder="0" allowfullscreen
+          src="https://www.youtube.com/embed/ivGLBxfS5SU">
+  </iframe>

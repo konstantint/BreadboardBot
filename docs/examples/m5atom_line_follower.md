@@ -21,4 +21,6 @@ This is an example of a BreadboardBot that uses the [M5Stack Atom Lite](https://
 
 * **Result**
   
-  Here is a [video](https://youtu.be/XpShH5Vs8lY) of the resulting robot.
+  <iframe width="640" height="390" frameborder="0" allowfullscreen
+          src="https://www.youtube.com/embed/XpShH5Vs8lY">
+  </iframe>

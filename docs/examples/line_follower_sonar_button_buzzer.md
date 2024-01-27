@@ -24,4 +24,9 @@
   * It beeps on start-up.
   * It indicates the distance via beeps (put your hand closer to the sonar and it will beep more frequently).
   * If you click the button, it will stop and play a short melody.
-  * Here's a [video](https://youtu.be/FUKQwfPJc14). As in the video for the previous example, you can hear the otherwise inaudible sonar in the recording.
+
+  <iframe width="640" height="390" frameborder="0" allowfullscreen
+          src="https://www.youtube.com/embed/FUKQwfPJc14">
+  </iframe>
+
+  As in the video for the [other sonar example](line_follower_sonar.md), you can hear the otherwise inaudible sonar in the recording.

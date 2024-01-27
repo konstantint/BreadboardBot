@@ -24,7 +24,11 @@ NB: the RGB matrix does not seem to work correctly when powered with more than 5
 
 * **Result**
   
-  The resulting robot is a version of the sonar-equipped line follower that also makes use of the RGB matrix (first scrolls some text, then shows a selection of rainbow effects). Here is the [video](https://youtu.be/A6sq72KMCfU) of the animation.
+  The resulting robot is a version of the sonar-equipped line follower that also makes use of the RGB matrix (first scrolls some text, then shows a selection of rainbow effects). Here is the video of just the animation:
+
+  <iframe width="640" height="390" frameborder="0" allowfullscreen
+          src="https://www.youtube.com/embed/A6sq72KMCfU">
+  </iframe>
 
 ## Two RGB matrices
 

@@ -16,4 +16,10 @@ When using a display there is no place for a sonar, but there is space to plug i
 
 * **Result**
   
-  The resulting robot is a version of the [line_follower_sonar](line_follower_sonar.md) example, just with the IR proximity sensor instead of the sonar. Here's a [video](https://youtu.be/CE_nFJj4xOg). Fun fact: it is not straightforward to film this robot with a smartphone as it turns away as soon as you point your smartphone camera on it - the IR sensor reacts to the IR LED used the smartphone.
+  The resulting robot is a version of the [line_follower_sonar](line_follower_sonar.md) example, just with the IR proximity sensor instead of the sonar:
+  
+  <iframe width="640" height="390" frameborder="0" allowfullscreen
+          src="https://www.youtube.com/embed/CE_nFJj4xOg">
+  </iframe>
+
+  Fun fact: it is not straightforward to film this robot with a smartphone as it turns away as soon as you point your smartphone camera on it - the IR sensor reacts to the IR LED used the smartphone.
