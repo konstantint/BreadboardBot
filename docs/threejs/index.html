@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BreadboardBot — 3D Line Follower Visualization</title>
+  <meta name="description" content="Interactive 3D Three.js visualization of an assembled Seeed XIAO RP2040 BreadboardBot following a black electrical-tape track." />
+  <link rel="icon" href="data:," />
+  <style>
+    :root {
+      --bg: #ece8df;
+      --surface: rgba(250, 248, 243, 0.92);
+      --surface-strong: #faf8f3;
+      --ink: #191a1c;
+      --ink-muted: #5c5f66;
+      --rule: rgba(25, 26, 28, 0.14);
+      --accent: #1d4ed8;
+      --sensor-on: #dc2626;
+      --sensor-off: #9ca3af;
+      --mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    #viewport {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      outline: none;
+    }
+
+    /* Unified architectural HUD strip */
+    .hud-header {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 10;
+      background: var(--surface);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--rule);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .hud-header h1 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .hud-subtitle {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-muted);
+      margin-top: 2px;
+    }
+
+    .hud-divider {
+      width: 1px;
+      height: 26px;
+      background: var(--rule);
+    }
+
+    .telemetry {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sensor-readout {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--ink-muted);
+    }
+
+    .led-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--sensor-off);
+      transition: background-color 60ms linear, box-shadow 60ms linear;
+    }
+
+    .led-dot.on-line {
+      background: var(--sensor-on);
+      box-shadow: 0 0 6px rgba(220, 38, 38, 0.75);
+    }
+
+    /* Docked bottom-center control bar */
+    .hud-dock {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      background: var(--surface);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--rule);
+      display: flex;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+      max-width: calc(100vw - 24px);
+    }
+
+    .dock-group {
+      display: flex;
+      align-items: center;
+      padding: 6px 8px;
+      gap: 4px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .dock-group:last-child {
+      border-right: none;
+    }
+
+    .dock-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-muted);
+      margin: 0 5px 0 2px;
+    }
+
+    button.chip {
+      appearance: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 5px 8px;
+      cursor: pointer;
+      transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+      white-space: nowrap;
+    }
+
+    button.chip:hover {
+      background: rgba(25, 26, 28, 0.06);
+    }
+
+    button.chip.active {
+      background: var(--ink);
+      color: var(--surface-strong);
+    }
+
+    .explode-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 4px;
+    }
+
+    input[type="range"] {
+      width: 68px;
+      accent-color: var(--ink);
+      cursor: pointer;
+    }
+
+    @media (max-width: 760px) {
+      .hud-header {
+        right: 16px;
+        justify-content: space-between;
+      }
+      .hud-dock {
+        bottom: 10px;
+        width: calc(100vw - 20px);
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .dock-group {
+        border-right: none;
+        border-bottom: 1px solid var(--rule);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hud-header">
+    <div>
+      <h1>BreadboardBot</h1>
+      <div class="hud-subtitle">XIAO RP2040 · 2× FS90R · 2× HW-006</div>
+    </div>
+    <div class="hud-divider"></div>
+    <div class="telemetry" aria-label="Live sensor and motor state">
+      <div class="sensor-readout" title="Left IR Sensor (D10) & Left Servo">
+        <span id="led-left" class="led-dot"></span>
+        <span>L:<strong id="val-left">1</strong> (<span id="spd-left">+0.60</span>)</span>
+      </div>
+      <div class="sensor-readout" title="Right IR Sensor (D7) & Right Servo">
+        <span id="led-right" class="led-dot"></span>
+        <span>R:<strong id="val-right">1</strong> (<span id="spd-right">-0.60</span>)</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="hud-dock" aria-label="Simulation controls">
+    <div class="dock-group">
+      <span class="dock-label">Cam</span>
+      <button id="cam-follow" class="chip active" type="button">Follow</button>
+      <button id="cam-front" class="chip" type="button">Front</button>
+      <button id="cam-rear" class="chip" type="button">Rear</button>
+      <button id="cam-overview" class="chip" type="button">Table</button>
+    </div>
+    <div class="dock-group">
+      <button id="btn-play" class="chip active" type="button">Pause</button>
+      <div class="explode-wrap">
+        <label class="dock-label" for="slider-speed">max_speed</label>
+        <input id="slider-speed" type="range" min="0" max="100" step="5" value="60" />
+        <span id="label-speed" style="font-family: var(--mono); font-size: 11px; min-width: 30px;">0.60</span>
+      </div>
+    </div>
+    <div class="dock-group">
+      <div class="explode-wrap">
+        <label class="dock-label" for="slider-explode">Explode</label>
+        <input id="slider-explode" type="range" min="0" max="100" value="0" />
+      </div>
+    </div>
+  </nav>
+
+  <canvas id="viewport"></canvas>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
